@@ -1,0 +1,5 @@
+  File "/home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages/motor_controller/motor_node.py", line 82
+    """Publish encoder ticks."""
+       ^^^^^^^
+SyntaxError: invalid syntax
+

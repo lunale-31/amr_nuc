@@ -1,0 +1,25 @@
+[0.620s] Invoking command in '/home/vj/ros2_ws/src/motor_controller': PYTHONPATH=/home/vj/ros2_ws/build/motor_controller/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/motor_controller build --build-base /home/vj/ros2_ws/build/motor_controller/build install --record /home/vj/ros2_ws/build/motor_controller/install.log --single-version-externally-managed install_data
+[0.833s] running egg_info
+[0.834s] writing ../../build/motor_controller/motor_controller.egg-info/PKG-INFO
+[0.834s] writing dependency_links to ../../build/motor_controller/motor_controller.egg-info/dependency_links.txt
+[0.834s] writing entry points to ../../build/motor_controller/motor_controller.egg-info/entry_points.txt
+[0.834s] writing requirements to ../../build/motor_controller/motor_controller.egg-info/requires.txt
+[0.834s] writing top-level names to ../../build/motor_controller/motor_controller.egg-info/top_level.txt
+[0.836s] reading manifest file '../../build/motor_controller/motor_controller.egg-info/SOURCES.txt'
+[0.837s] writing manifest file '../../build/motor_controller/motor_controller.egg-info/SOURCES.txt'
+[0.837s] running build
+[0.837s] running build_py
+[0.837s] copying motor_controller/motor_node.py -> /home/vj/ros2_ws/build/motor_controller/build/lib/motor_controller
+[0.838s] running install
+[0.838s] running install_lib
+[0.839s] copying /home/vj/ros2_ws/build/motor_controller/build/lib/motor_controller/motor_node.py -> /home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages/motor_controller
+[0.839s] byte-compiling /home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages/motor_controller/motor_node.py to motor_node.cpython-310.pyc
+[0.840s] running install_data
+[0.840s] running install_egg_info
+[0.840s] Sorry: IndentationError: expected an indented block after function definition on line 100 (motor_node.py, line 101)
+[0.842s] removing '/home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages/motor_controller-0.0.0-py3.10.egg-info' (and everything under it)
+[0.842s] Copying ../../build/motor_controller/motor_controller.egg-info to /home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages/motor_controller-0.0.0-py3.10.egg-info
+[0.843s] running install_scripts
+[0.862s] Installing motor_node script to /home/vj/ros2_ws/install/motor_controller/lib/motor_controller
+[0.862s] writing list of installed files to '/home/vj/ros2_ws/build/motor_controller/install.log'
+[0.886s] Invoked command in '/home/vj/ros2_ws/src/motor_controller' returned '0': PYTHONPATH=/home/vj/ros2_ws/build/motor_controller/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/vj/ros2_ws/install/motor_controller/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/motor_controller build --build-base /home/vj/ros2_ws/build/motor_controller/build install --record /home/vj/ros2_ws/build/motor_controller/install.log --single-version-externally-managed install_data
