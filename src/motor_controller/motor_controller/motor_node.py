@@ -7,7 +7,6 @@ from std_msgs.msg import Int32
 import minimalmodbus
 import math
 
-
 class MinimalModbusNode(Node):
     def __init__(self):
         super().__init__('minimal_modbus_node')
@@ -31,10 +30,22 @@ class MinimalModbusNode(Node):
         self.rmcs2303_right.serial.baudrate = 9600
         self.rmcs2303_left.serial.baudrate = 9600
 
+        # Reset encoders to zero during initialization
+        self.reset_encoders()
+
         # Publish ticks at a regular interval
         self.timer = self.create_timer(0.1, self.publish_ticks_loop)  # 10 Hz
 
         self.get_logger().info("Minimal Modbus Node initialized")
+
+    def reset_encoders(self):
+        """Reset encoders to zero."""
+        try:
+            self.rmcs2303_right.write_register(2, 2048, number_of_decimals=0, functioncode=6, signed=False)
+            self.rmcs2303_left.write_register(2, 2048, number_of_decimals=0, functioncode=6, signed=False)
+            self.get_logger().info("Encoders reset to zero")
+        except Exception as e:
+            self.get_logger().error(f"Error resetting encoders: {e}")
 
     def listener_callback(self, msg):
         """Callback for processing velocity commands."""
@@ -54,10 +65,6 @@ class MinimalModbusNode(Node):
         rpm_left = int(abs((velocity_left / (2 * math.pi * wheel_radius)) * 60 * gear_ratio))
 
         try:
-            # Set encoder counts to 0
-            self.rmcs2303_right.write_register(2, 2048, number_of_decimals=0, functioncode=6, signed=False)
-            self.rmcs2303_left.write_register(2, 2048, number_of_decimals=0, functioncode=6, signed=False)
-
             # Set speed commands
             self.rmcs2303_right.write_register(14, rpm_right, number_of_decimals=0, functioncode=6, signed=False)
             self.rmcs2303_left.write_register(14, rpm_left, number_of_decimals=0, functioncode=6, signed=False)
@@ -69,56 +76,34 @@ class MinimalModbusNode(Node):
                 self.rmcs2303_left.write_register(2, 265, number_of_decimals=0, functioncode=6, signed=False)  # CCW
 
             if velocity_right >= 0:
-                self.rmcs2303_right.write_register(2, 265, number_of_decimals=0, functioncode=6, signed=False)  # CW
+                self.rmcs2303_right.write_register(2, 257, number_of_decimals=0, functioncode=6, signed=False)  # CW
             else:
-                self.rmcs2303_right.write_register(2, 257, number_of_decimals=0, functioncode=6, signed=False)  # CCW
+                self.rmcs2303_right.write_register(2, 265, number_of_decimals=0, functioncode=6, signed=False)  # CCW
 
             self.get_logger().info(f"Set RPM: Left={rpm_left}, Right={rpm_right}")
 
         except Exception as e:
             self.get_logger().error(f"Error in listener_callback: {e}")
 
-    """def publish_ticks_loop(self):
-        Publish encoder ticks.
-        try:
-            # Read and publish right encoder ticks
-            right_position_feedback1 = self.rmcs2303_right.read_register(20)
-            right_position_feedback2 = self.rmcs2303_right.read_register(22)
-            right_feedback = right_position_feedback2 * (2 ** 16) + right_position_feedback1
-            self.right_ticks_pub.publish(Int32(data=int(right_feedback)))
-
-            # Read and publish left encoder ticks
-            left_position_feedback1 = self.rmcs2303_left.read_register(20)
-            left_position_feedback2 = self.rmcs2303_left.read_register(22)
-            left_feedback = left_position_feedback2 * (2 ** 16) + left_position_feedback1
-            self.left_ticks_pub.publish(Int32(data=int(left_feedback)))
-
-            self.get_logger().info(f"Ticks: Left={left_feedback}, Right={right_feedback}")
-
-        except Exception as e:
-            self.get_logger().error(f"Error in publish_ticks_loop: {e}")"""
-
     def publish_ticks_loop(self):
+        """Publish encoder ticks."""
         try:
             # Right motor feedback
             right_position_feedback1 = self.rmcs2303_right.read_register(20)
             right_position_feedback2 = self.rmcs2303_right.read_register(22)
             right_feedback = right_position_feedback2 * (2 ** 16) + right_position_feedback1
-            # right_feedback = max(min(right_feedback, 2147483647), -2147483648)
             self.right_ticks_pub.publish(Int32(data=int(right_feedback)))
 
             # Left motor feedback
             left_position_feedback1 = self.rmcs2303_left.read_register(20)
             left_position_feedback2 = self.rmcs2303_left.read_register(22)
             left_feedback = left_position_feedback2 * (2 ** 16) + left_position_feedback1
-            # left_feedback = max(min(left_feedback, 2147483647), -2147483648)
             self.left_ticks_pub.publish(Int32(data=int(left_feedback)))
 
             self.get_logger().info(f"Ticks: Left={left_feedback}, Right={right_feedback}")
 
         except Exception as e:
             self.get_logger().error(f"Error in publish_ticks_loop: {e}")
-
 
 
 def main(args=None):
