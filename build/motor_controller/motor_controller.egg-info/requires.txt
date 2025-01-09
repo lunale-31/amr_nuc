@@ -1,4 +1,0 @@
-geometry_msgs
-minimalmodbus
-rclpy
-setuptools
